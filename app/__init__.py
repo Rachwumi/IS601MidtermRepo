@@ -2,8 +2,8 @@ import os
 import pkgutil
 import importlib
 import sys
-import pkgutil
 import importlib
+from app.database import DataHandler
 from app.commands import Command
 from app.commands import CommandHandler
 from dotenv import load_dotenv
@@ -31,8 +31,18 @@ class App:
         settings = {key: value for key, value in os.environ.items()}
         logging.info("Environment variables loaded.")
         return settings
+    
+    def load_datapath(self):
+        try:
+            DataHandler.setPath(self.get_datapath())
+            logging.info(f"loaded the datapath {DataHandler.getPath()}" )
+        except:
+            logging.error("Unexpeceted Error occurred while loading the data path, please check the environment variables")
 
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
+        return self.settings.get(env_var, None)
+    
+    def get_datapath(self, env_var: str = 'PANDAS_DIR'):
         return self.settings.get(env_var, None)
 
     def load_plugins(self):
@@ -59,6 +69,7 @@ class App:
 
     def start(self):
         self.load_plugins()
+        self.load_datapath()
         self.command_handler.execute_command("menu")
         logging.info("Application started. Type 'exit' to exit.")
         try:
