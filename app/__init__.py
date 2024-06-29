@@ -5,7 +5,7 @@ import sys
 import importlib
 from app.database import DataHandler
 from app.commands import Command
-from app.commands import CommandHandler
+from app.commands import CommandHandler 
 from dotenv import load_dotenv
 import logging
 import logging.config
@@ -17,6 +17,7 @@ class App:
         load_dotenv()
         self.settings = self.load_environment_variables()
         self.settings.setdefault('ENVIRONMENT', 'PRODUCTION')
+        self.load_datapaths()
         self.command_handler = CommandHandler()
 
     def configure_logging(self):
@@ -32,17 +33,22 @@ class App:
         logging.info("Environment variables loaded.")
         return settings
     
-    def load_datapath(self):
+    def load_datapaths(self):
         try:
-            DataHandler.setPath(self.get_datapath())
-            logging.info(f"loaded the datapath {DataHandler.getPath()}" )
+            DataHandler.setDir(self.get_dataDir())
+            DataHandler.setFile(self.get_dataFile())
+            DataHandler.setPath()
+            logging.info(f"loaded the datapath {DataHandler.getPath()}")
         except:
             logging.error("Unexpeceted Error occurred while loading the data path, please check the environment variables")
 
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
         return self.settings.get(env_var, None)
     
-    def get_datapath(self, env_var: str = 'PANDAS_DIR'):
+    def get_dataDir(self, env_var: str = 'PANDAS_DIR'):
+        return self.settings.get(env_var, None)
+
+    def get_dataFile(self, env_var: str = 'PANDAS_FILE'):
         return self.settings.get(env_var, None)
 
     def load_plugins(self):
@@ -69,15 +75,12 @@ class App:
 
     def start(self):
         self.load_plugins()
-        self.load_datapath()
         self.command_handler.execute_command("menu")
+        self.command_handler.execute_command("load")
         logging.info("Application started. Type 'exit' to exit.")
         try:
             while True:
                 cmd_input = input(">>> ").strip()
-                if cmd_input.lower() == 'exit':
-                    logging.info("Application exit.")
-                    sys.exit(0)  # Use sys.exit(0) for a clean exit, indicating success.
                 try:
                     self.command_handler.execute_command(cmd_input)
                 except KeyError:  # Assuming execute_command raises KeyError for unknown commands
