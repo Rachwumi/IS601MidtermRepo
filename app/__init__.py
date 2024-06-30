@@ -16,7 +16,6 @@ class App:
         self.configure_logging()
         load_dotenv()
         self.settings = self.load_environment_variables()
-        self.settings.setdefault('ENVIRONMENT', 'PRODUCTION')
         self.load_datapaths()
         self.command_handler = CommandHandler()
 
@@ -38,12 +37,9 @@ class App:
             DataHandler.setDir(self.get_dataDir())
             DataHandler.setFile(self.get_dataFile())
             DataHandler.setPath()
-            logging.info(f"loaded the datapath {DataHandler.getPath()}")
+            logging.info(f"loaded the datapath.")
         except:
             logging.error("Unexpeceted Error occurred while loading the data path, please check the environment variables")
-
-    def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
-        return self.settings.get(env_var, None)
     
     def get_dataDir(self, env_var: str = 'PANDAS_DIR'):
         return self.settings.get(env_var, None)
@@ -77,6 +73,7 @@ class App:
         self.load_plugins()
         self.command_handler.execute_command("menu")
         self.command_handler.execute_command("load")
+        print("Application started. Type 'exit' to exit.")
         logging.info("Application started. Type 'exit' to exit.")
         try:
             while True:

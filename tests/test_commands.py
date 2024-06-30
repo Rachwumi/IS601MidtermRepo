@@ -100,4 +100,4 @@ def test_app_menu_command(capfd, monkeypatch):
     with pytest.raises(SystemExit):
         app.start()  # Assuming App.start() is now a static method based on previous discussions
     captured = capfd.readouterr()
-    assert "Here is the Menu of available commands: add, divide, exit, menu, multiply, subtract" in captured.out
+    assert "Here is the Menu of available commands: add, clear, delete, divide, exit, load, menu, multiply, save, subtract" in captured.out
