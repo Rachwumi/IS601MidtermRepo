@@ -9,7 +9,7 @@
     6. Create a ".env" file and store the following in there:
         PANDAS_DIR="./data"
         PANDAS_FILE="history.csv"
-    7. Run "python main.py" in the terminal
+    7. Type "python main.py" or "python3 main.py" in the terminal to run the program
 
 ## Design Pattern Description
 
