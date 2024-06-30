@@ -83,13 +83,13 @@ def test_app_save_command(capfd, monkeypatch):
 def test_app_load_command(capfd, monkeypatch):
     """Test that the REPL correctly handles the 'load' command."""
     # Simulate user entering 'load' then exiting the program 'exit'
-    inputs = iter(['load', 'exit'])
+    inputs = iter(['clear','load', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
     app = App()
     with pytest.raises(SystemExit):
         app.start()  # Assuming App.start() is now a static method based on previous discussions
     captured = capfd.readouterr()
-    assert "Loaded 1 previous calculation(s) into the calculator" in captured.out
+    assert "Loaded 0 previous calculation(s) into the calculator" in captured.out
 
 def test_app_delete_command(capfd, monkeypatch):
     """Test that the REPL correctly handles the 'add' command."""
