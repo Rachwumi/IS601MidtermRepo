@@ -28,6 +28,12 @@ class Calculator_History:
         DataHandler.saveDatabase(cls.buildSet())
 
     @classmethod
+    def displayList(cls):
+        for i in range(len(cls.log)):
+            print(i, ': ', cls.log[i].x, cls.log[i].y, cls.log[i].comp)
+            logging.info(f"{i} : {cls.log[i].x}, {cls.log[i].y}, {cls.log[i].comp}")
+
+    @classmethod
     def assistLoad(cls, db):
         result: list[calc] = []
         try:
@@ -48,14 +54,8 @@ class Calculator_History:
     @classmethod
     def buildSet(cls):
         result = []
-        print(f"Saving {len(cls.log)} calculations.")
+        print(f"Saving {len(cls.log)} calculation(s).")
         logging.info(f"Size of the calculator history: {len(cls.log)}")
         for c in cls.log:
             result.append([c.x,c.y,c.comp])
         return result
-        
-    @classmethod
-    def displayList(cls):
-        for i in range(len(cls.log)):
-            print(i, ': ', cls.log[i].x, cls.log[i].y, cls.log[i].comp)
-            logging.info(f"{i} : {cls.log[i].x}, {cls.log[i].y}, {cls.log[i].comp}")

@@ -52,7 +52,7 @@ class Calculator:
       @staticmethod
       def loadHistory():
             Calculator.calc_history.assistLoad(DataHandler.loadDatabase())
-            print('Loaded',len(Calculator.calc_history.log),'previous calculations into the calculator')
+            print('Loaded',len(Calculator.calc_history.log),'previous calculation(s) into the calculator')
             log.info(f'Loaded {len(Calculator.calc_history.log)} calculations into the calculator:')
             for c in Calculator.calc_history.log:
                   log.info(f'{c.x}, {c.y}, {c.comp}')
