@@ -1,8 +1,11 @@
-import logging
-from app.commands import Command
-from app.calculator import Calculator
+import logging #imports the logging class
+from app.commands import Command #imports the command parent class to create child classes of command
+from app.calculator import Calculator #imports the Calculator class to make calculator operations 
 
 class DisplayLastCommand(Command):
+    '''
+    Uses EAFP to perform the displayLast command in calculator 
+    '''
     def execute(self):
         try:
             calc = Calculator.displayLast()

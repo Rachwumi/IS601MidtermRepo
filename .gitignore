@@ -4,4 +4,4 @@
 *__pycache__
 .env
 logs
-data/history.csv
+data
