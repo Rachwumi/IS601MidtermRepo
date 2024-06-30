@@ -36,7 +36,6 @@ class Calculator_History:
             empties the history array 
         '''
         cls.log.clear()
-        DataHandler.clearDatabase()
 
     @classmethod
     def saveDatabase(cls):

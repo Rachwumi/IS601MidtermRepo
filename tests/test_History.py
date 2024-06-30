@@ -27,7 +27,7 @@ def test_getlastcalc():
 ])
 
 def test_removecalc(pos, cal):
-    '''Test that the calculation history removeCalculation() method works ''' 
+    '''Test that the calculation history removeCalculation() method works '''
     log.emptyList()
     log.addCalculation(cal)
     temp = log.removeCalculation(pos)

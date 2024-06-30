@@ -83,7 +83,7 @@ def test_app_save_command(capfd, monkeypatch):
 def test_app_load_command(capfd, monkeypatch):
     """Test that the REPL correctly handles the 'load' command."""
     # Simulate user entering 'load' then exiting the program 'exit'
-    inputs = iter(['clear','load', 'exit'])
+    inputs = iter(['clear','save', 'load', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
     app = App()
     with pytest.raises(SystemExit):

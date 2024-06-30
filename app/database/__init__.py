@@ -6,7 +6,7 @@ class DataHandler:
     _absdatadir = ""
     _absdatafile = ""
     _absdatapath = ""
-    _database = ""
+    _database = pd.DataFrame()
 
     @staticmethod
     def loadDatabase():
@@ -37,14 +37,6 @@ class DataHandler:
             print("Calculations were saved to the database.")
         except Exception as e:
             log.error('%s', repr(e))
-    
-    @staticmethod
-    def clearDatabase():
-        '''
-           Clears the database
-        '''
-        DataHandler._database.iloc[0:0]
-        DataHandler._database.to_csv(DataHandler._absdatapath, index=False)
 
     @staticmethod
     def setDir(dir):
@@ -78,7 +70,7 @@ class DataHandler:
     @staticmethod
     def setDatabase():
         '''
-           Uses EAFP tostore the database in the database variable
+           Uses EAFP tostore the database in the database
         '''          
         try:
             DataHandler._database = pd.read_csv(DataHandler._absdatapath)
