@@ -2,10 +2,10 @@ import os
 import pkgutil
 import importlib
 import sys
-import pkgutil
 import importlib
+from app.database import DataHandler
 from app.commands import Command
-from app.commands import CommandHandler
+from app.commands import CommandHandler 
 from dotenv import load_dotenv
 import logging
 import logging.config
@@ -16,7 +16,7 @@ class App:
         self.configure_logging()
         load_dotenv()
         self.settings = self.load_environment_variables()
-        self.settings.setdefault('ENVIRONMENT', 'PRODUCTION')
+        self.load_datapaths()
         self.command_handler = CommandHandler()
 
     def configure_logging(self):
@@ -31,8 +31,20 @@ class App:
         settings = {key: value for key, value in os.environ.items()}
         logging.info("Environment variables loaded.")
         return settings
+    
+    def load_datapaths(self):
+        try:
+            DataHandler.setDir(self.get_dataDir())
+            DataHandler.setFile(self.get_dataFile())
+            DataHandler.setPath()
+            logging.info(f"loaded the datapath.")
+        except:
+            logging.error("Unexpeceted Error occurred while loading the data path, please check the environment variables")
+    
+    def get_dataDir(self, env_var: str = 'PANDAS_DIR'):
+        return self.settings.get(env_var, None)
 
-    def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
+    def get_dataFile(self, env_var: str = 'PANDAS_FILE'):
         return self.settings.get(env_var, None)
 
     def load_plugins(self):
@@ -60,13 +72,12 @@ class App:
     def start(self):
         self.load_plugins()
         self.command_handler.execute_command("menu")
+        self.command_handler.execute_command("load")
+        print("Application started. Type 'exit' to exit.")
         logging.info("Application started. Type 'exit' to exit.")
         try:
             while True:
                 cmd_input = input(">>> ").strip()
-                if cmd_input.lower() == 'exit':
-                    logging.info("Application exit.")
-                    sys.exit(0)  # Use sys.exit(0) for a clean exit, indicating success.
                 try:
                     self.command_handler.execute_command(cmd_input)
                 except KeyError:  # Assuming execute_command raises KeyError for unknown commands
