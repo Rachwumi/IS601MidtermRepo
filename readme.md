@@ -10,8 +10,8 @@ This is my implementation of the midterm assignment
 4. Activate the virtual environment: "source venv/bin/activate"
 5. Install the requirements with pip or pip3 install requirements.txt
 6. Create a ".env" file in the repo directory and store the following in there:
-    PANDAS_DIR="./data"
-    PANDAS_FILE="history.csv"
+    - PANDAS_DIR="./data"
+    - PANDAS_FILE="history.csv"
 7. Type "python main.py" or "python3 main.py" in the terminal to run the program
 8. Once finished deactivate the virtual environment: "deactivate"
 
