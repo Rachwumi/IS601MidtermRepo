@@ -1,4 +1,7 @@
-# Midterm One
+# Midterm
+
+This is my implementation of the midterm assignment
+## Demonstration Video - [here]()
 
 ## Setup
     1. Clone the repo
@@ -6,17 +9,38 @@
     3. Create the virtual environment: "virtualenv venv"
     4. Activate the virtual environment: "source venv/bin/activate"
     5. Install the requirements with pip or pip3 install requirements.txt
-    6. Create a ".env" file and store the following in there:
+    6. Create a ".env" file in the repo directory and store the following in there:
         PANDAS_DIR="./data"
         PANDAS_FILE="history.csv"
     7. Type "python main.py" or "python3 main.py" in the terminal to run the program
     8. Once finished deactivate the virtual environment: "deactivate"
 
+## App Commands
+    - **Add** - Once inputted prompts the user for two more numbers and performs the calculation
+    - **Clear** - Clears the calculation history stored, and upon save or exit will rewrite the database with the new calculations stored.
+    - **Delete** - displays a full list of the records in the calculation history, then prompts the user to input a position number representing the record the user wants deleted.
+    - **Display** - Displays the full list of calculations stored in calculation history class
+    - **DisplayLast** - Displays the most recent calculation that was made in the calculation history
+    - **Divide** - Once inputted prompts the user for two more numbers and performs the calculation
+    - **Exit** - Saves the calculation history and stops the app.
+    - **Load** - Upon app start it loads the calculation history with records from the database. The user can type in the command to reload/restart the calculation history from the database records  
+    - **Menu** - Displays the full list of commands for the user to type in and interact with
+    - **Multiply** - Once inputted prompts the user for two more numbers and performs the calculation
+    - **Save** -  Upon app 'exit' command the database gets stored with calculation history records. The user can type in the command at any point to save the current calculation history into the database. 
+    - **Subtract** - Once inputted prompts the user for two more numbers and performs the calculation
+
 ## Design Pattern Description
+    - This implementation of the project incorporates all of the design patterns we've learned in the past few weeks. This project looks to incorporate the Facade, Command ([command](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/commands/__init__.py) and [plugin](https://github.com/Rachwumi/IS601MidtermRepo/tree/master/app/plugins)), Factory Method(Command [parent](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/commands/__init__.py) and [child](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/plugins/add/__init__.py) classes), Singleton (minimal coding executed in methods), and Strategy (The breakdown of the calculator folder into separate classes to perform separate operations associated with a calculator)Patterns that we have learned over the past few weeks. It also uses a [REPL](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/__init__.py) (Read-Evaluate-Print Loop) to take continuous user inputs and perform a handful of data, arithmetic, and logging operations. For example if the user wanted to add 2 numbers, the user would be prompted to type in the add command on the [app](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/__init__.py), once the "add" command is typed the associated [plugin file](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/plugins/add/__init__.py) will start to run through the use of the [commandHandler](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/commands/__init__.py). The user will be prompted to type in 2 more inputs which represent the numbers that will be added, once inputted the [Calculator.add(x,y,comp)](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/calculator/__init__.py) function will be called to handle the users input. From there the private helper function _calculate() is called to turn the users inputs into an instance of the calculation class, so the calculation class can call it's [performCalculation()](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/calculator/calculation.py) method to take the class variables (x,y,comp) and call the appropriate [arithmetic](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/calculator/arithematic.py) function inside of the arithemetic class. Meanwhile, the calculation is stored in the [history](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/calculator/history.py) class so that it can be saved and stored in the database.
+    - All the classes incorporated follow the basis of the Singleton and Strategy methods, by creating multiple classes (Calculator init, Calculation_History, Calculation, and Arithmetic) to serve as the full calacultor and leveraging various static and class methods or classes to perform various actions like adding and subtracting, storing data into the history array and removing data out of the history array, and reading or writing into the database. At the same time, using helper methods to minimalize what each method was doing so I could pinpoint errors and log data. 
 
+    **Excexution Pattern for Commands**
+    - **Add, Subtract, Multiply, and Divide**: App -> CommandHandler -> Plugin Command -> Calculator -> Calculation and History -> Arithematic
+    - **Clear, Delete, Display, DisplayLast, Save, and Load**: App -> CommandHandler -> Calculator -> History (if save and load -> Database)
+    - **Exit, and Menu**: App -> CommandHandler
 ## Environment Variables
-
+    - The only environment variables being stored in the .env file are PANDAS_DIR, the directory for the database file, and PANDAS_FILE, the actual name of the [database](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/database/__init__.py) file. I'm using them as enivronment variables so I have once place that is refrenced for this information when I'm creating my DataHandler class. This allows me to load the variables in the app dynamically in one place, and I can easily change the path destination from one place.
 ## Logging
+    - Logging is being performed on almost every operation possible. Mainly through all of the [plugin commands](https://github.com/Rachwumi/IS601MidtermRepo/tree/master/app/plugins), but also is happening in specific methods for the database and calculator classes as well. Most of the logging is configured though the [logging.conf](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/logging.conf) file which allows me to setup 3 different handlers that take in a speficific log level: Info, Warning, and Error, which is initialized from the [application](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/__init__.py). If no logging.conf file is present the basicCSonfig method is used to setup the logging execution in the program. Info logging is used for all positive and well executed commands such as calculations, history displaying, database operations, setup, and more. Warning logss are used for non-critical errors such as not beinging able to load database records in the [history array](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/calculator/history.py), and not being able to read from the csv path in the [dataHandler](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/database/__init__.py) because it means the file more then likely doesn't exist but through the save or exit command we'll be able to create the file once executed. Whereas error logs are used in an event where the execution would be broken by an action or input, but because we're catching we're logging whatever that error was. 
 
 ## "Look Before You Leap" and "Easier to Ask for Forgiveness than Permission"
-
+    - In this implementation LBYL and EAFP are used everywhere. LBYL or "Look Before You Leap" is used as a data/input verification tool, so the code can run the appropriate action based on the users input. For example when a user types in the "add" command the CommandHandler method, [execute_command](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/commands/__init__.py), uses LBYL to execute the approriate version of the "execute" command method, depending on what command was given. If the command doesn't exist then an error message is logged and printed to the user. Another example of LBYL is the [performCalculation()](https://github.com/Rachwumi/IS601MidtermRepo/blob/master/app/calculator/calculation.py) method in the calculation class, this method uses LBYL to verify what arithematic needs to be executed based on the instance's comp variable, which holds the users computation command. EAFP or "Easier to Ask for Forigveness than Permission" was used as an error handler tool, so that if the expected outcome doesn't happen then my program won't break and end. Instead, I can log that error, and print a message to the user so that the users knows to only give expected inputs and the expected result will happen. An example, where this is being implemented is all of the plugin commands, except "menu" and "exit". Due, to all of these commands executing multiple methods and at the same time asking for user input, it's hard to control or have an outcome for all of the intended and unintended inputs or functionality. Using EAFP allows me to cover both intended and unintended inputs or functionality, and steer the user or function to only performing in its intended state.
