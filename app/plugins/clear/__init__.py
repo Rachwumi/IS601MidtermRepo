@@ -9,8 +9,8 @@ class ClearCommand(Command):
     def execute(self):
         try:
             Calculator.clearDatabase()
-            print("Calculation history and database were cleared")
-            logging.info("Calculation history and database were cleared")
+            print("Calculation history was cleared. Please 'save' save to clear the database ")
+            logging.info("Calculation history was cleared. Please 'save' to clear the database ")
         except Exception as e:
             print("Could not clear calculation history and database.")
             logging.warning("Could not clear calculation history and database: %s", repr(e))
