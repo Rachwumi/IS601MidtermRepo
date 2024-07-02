@@ -111,7 +111,7 @@ def test_app_clear_command(capfd, monkeypatch):
     with pytest.raises(SystemExit):
         app.start()  # Assuming App.start() is now a static method based on previous discussions
     captured = capfd.readouterr()
-    assert "Calculation history and database were cleared" in captured.out
+    assert "Calculation history was cleared. Please 'save' save to clear the database" in captured.out
 
 def test_error_app_subtract_command(capfd, monkeypatch):
     """Test that the REPL correctly handles the error 'subtract' command."""
