@@ -1,7 +1,7 @@
 # Midterm
 
 This is my implementation of the midterm assignment
-## Demonstration Video - [here]([https://www.youtube.com/watch?v=V94ml1GdbPg](https://www.youtube.com/watch?v=uQCaw9ueb44))
+## Demonstration Video - [here](https://www.youtube.com/watch?v=uQCaw9ueb44)
 
 ## Setup
 1. Clone the repo
